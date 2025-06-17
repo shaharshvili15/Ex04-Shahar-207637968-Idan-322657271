@@ -14,10 +14,11 @@ namespace Ex04.Menus.Test
             Console.WriteLine("App Version: 25.2.4.4480");
         }
         //TODO: CREATE FUNCTION THAT SHOWS NUMBER OF LOWER CASE LETTERS IN A STRING 
-        public void ShowNumberOfLowerCaseLetters(string i_InputSentence)
+        public void ShowNumberOfLowerCaseLetters()
         {
+            string sentence = Console.ReadLine();
             int numberOfLower = 0;
-            foreach(char currentChar in i_InputSentence)
+            foreach(char currentChar in sentence)
             {
                 if(char.IsLower(currentChar))
                 {
