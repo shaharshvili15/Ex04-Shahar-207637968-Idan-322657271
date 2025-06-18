@@ -20,7 +20,14 @@ namespace Ex04.Menus.Events
         }
         public void Clicked()
         {
-            OnClick();
+            if (HasSubItems())
+            {
+                Logic.ShowSubMenu(this);
+            }
+            else
+            {
+                OnClick();
+            }
         }
         protected virtual void OnClick()
         {
@@ -29,7 +36,10 @@ namespace Ex04.Menus.Events
                 ClickOccured();
             }
         }
-
+        public bool HasSubItems()
+        {
+            return m_SubItems.Count > 0;
+        }
        /* public void nofifyParante()
         {
             m_ItemClickedDelegates?.Invoke(Id);

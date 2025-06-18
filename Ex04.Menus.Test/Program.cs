@@ -10,7 +10,6 @@ namespace DelegatesAndEvents
         public static void Main()
         {
             Menu menu = new Menu();
-            string s =Console.ReadLine();
         }
     }
 }
