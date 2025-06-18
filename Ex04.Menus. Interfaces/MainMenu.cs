@@ -4,45 +4,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex04.Menus.Events
+namespace Ex04.Menus.Interfaces
 {
-    public static class Logic
+    public static class MainMenu
     {
-        public static void ShowSubMenu(MenuItem i_MenuItem)
+        public static void ShowMenu(MenuItem i_MenuItem, bool i_IsMainMenu = false)
         {
             while (true)
             {
-                //Console.Clear();
-                int userChoise = UserChoise(i_MenuItem.m_SubItems, i_MenuItem.ItemText,false);
+                int userChoise = UserChoise(i_MenuItem.m_SubItems, i_MenuItem.Text, i_IsMainMenu);
                 if (userChoise == 0)
                 {
+                    Console.Clear();
                     break;
                 }
                 else
                 {
-                    i_MenuItem.m_SubItems[userChoise-1].Clicked();
+                    i_MenuItem.m_SubItems[userChoise - 1].Clicked();
                 }
             }
         }
 
-        public static void ShowMenu(List<MenuItem> i_MenuItem, string i_ItemText)
-        {
-            while (true)
-            {
-                Console.Clear();
-                int userChoise = UserChoise(i_MenuItem, i_ItemText);
-                if (userChoise == 0)
-                {
-                    break;
-                }
-                else
-                {
-                    i_MenuItem[userChoise - 1].Clicked();
-                }
-            }
-        }
 
-        public static int UserChoise(List<MenuItem> i_Items,string i_ItemText, bool i_IsMainMenu = true)
+
+        public static int UserChoise(List<MenuItem> i_Items, string i_ItemText, bool i_IsMainMenu )
         {
             while (true)
             {
@@ -53,7 +38,7 @@ namespace Ex04.Menus.Events
                 Console.WriteLine("---------------");
                 foreach (MenuItem currentMenuItem in i_Items)
                 {
-                    Console.WriteLine($"{i_Items.IndexOf(currentMenuItem) + 1}. {currentMenuItem.ItemText}");
+                    Console.WriteLine($"{i_Items.IndexOf(currentMenuItem) + 1}. {currentMenuItem.Text}");
                 }
                 //todo: understand how to know if here we need to write back and not exit it will happen if we are in a submenu
                 if (i_IsMainMenu)
@@ -66,11 +51,17 @@ namespace Ex04.Menus.Events
                     Console.WriteLine("0. Back");
                     Console.WriteLine($"Please enter your choice (1-{i_Items.Count} or 0 to go back):");
                 }
+                Console.Write(">> ");
                 string userChoise = Console.ReadLine();
                 bool ableToParseUserChoise = int.TryParse(userChoise, out int userChoiseNumber);
-                if (userChoiseNumber < 0 || !ableToParseUserChoise)
+                if (!ableToParseUserChoise)
                 {
-                    Console.WriteLine("Invalid Choise Try Again");
+                    Console.WriteLine("Please enter a number");
+                    continue;
+                }
+                if(userChoiseNumber < 0 || userChoiseNumber > i_Items.Count)
+                {
+                    Console.WriteLine($"Please enter a number in the range (1-{i_Items.Count} or 0 to go back)");
                 }
                 else
                 {

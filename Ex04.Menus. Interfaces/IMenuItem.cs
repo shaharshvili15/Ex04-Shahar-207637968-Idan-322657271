@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ex04.Menus.Interfaces
 {
-    internal interface IMenuItem
+    public interface IMenuItemListener
     {
+        void ItemSelected();
     }
 }

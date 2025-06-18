@@ -9,20 +9,19 @@ namespace Ex04.Menus.Events
     public delegate void ClickEventHandler();
     public class MenuItem
     {
-        public int Id { get; set; }
         public string ItemText { get; set; }
         public readonly List<MenuItem> m_SubItems = new List<MenuItem>();
         public event ClickEventHandler ClickOccured;
-        public MenuItem(string i_ItemText, int i_Id)
+        public MenuItem(string i_ItemText)
         {
             ItemText = i_ItemText;
-            Id = i_Id;
         }
         public void Clicked()
         {
             if (HasSubItems())
             {
-                Logic.ShowSubMenu(this);
+                Console.Clear();
+                MainMenu.ShowMenu(this);
             }
             else
             {
@@ -40,16 +39,5 @@ namespace Ex04.Menus.Events
         {
             return m_SubItems.Count > 0;
         }
-       /* public void nofifyParante()
-        {
-            m_ItemClickedDelegates?.Invoke(Id);
-        }
-        public void DoWhenClick()
-        {
-            //do here the function 
-            nofifyParante();
-        }*/
-
-
     }
 }
