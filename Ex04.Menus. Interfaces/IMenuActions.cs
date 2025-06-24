@@ -8,9 +8,9 @@ namespace Ex04.Menus.Interfaces
 {
     public interface IMenuActions
     {
-        void ShowVersion();
-        void ShowNumberOfLowerCaseLetters();
-        void ShowCurrentDate();
-        void ShowCurrentTime();
+        void MenuItemShowVersion_Clicked();
+        void MenuItemShowNumberOfLowerCaseLetters_Clicked();
+        void MenuItemShowCurrentDate_Clicked();
+        void MenuItemShowCurrentTime_Clicked();
     }
 }

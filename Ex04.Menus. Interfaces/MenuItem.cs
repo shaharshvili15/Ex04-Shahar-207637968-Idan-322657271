@@ -9,30 +9,31 @@ namespace Ex04.Menus.Interfaces
 {
     public class MenuItem
     {
-        private readonly List<IMenuItemListener> m_MenuItemListeners;
-        public List<MenuItem> m_SubItems { get; }
-        public string Text;
+        private readonly MainMenu r_MainMenu = new MainMenu();
+        private readonly List<IMenuItemListener> r_MenuItemListeners;
+        public List<MenuItem> SubItems { get; }
+        public string ItemText { get; set; }
 
         public MenuItem(string i_Text)
         {
-            Text = i_Text;
-            m_MenuItemListeners = new List<IMenuItemListener>();
-            m_SubItems = new List<MenuItem>();
+            ItemText = i_Text;
+            r_MenuItemListeners = new List<IMenuItemListener>();
+            SubItems = new List<MenuItem>();
         }
 
         public void Clicked()
         {
-            if (m_SubItems.Count > 0)
+            if (SubItems.Count > 0)
             {
                 if (HasSubItems())
                 {
                     Console.Clear();
-                    MainMenu.ShowMenu(this);
+                    r_MainMenu.ShowMenu(this);
                 }
             }
             else
             {
-                foreach (IMenuItemListener menuItemListener in m_MenuItemListeners)
+                foreach (IMenuItemListener menuItemListener in r_MenuItemListeners)
                 {
                     menuItemListener.ItemSelected();
                 }
@@ -41,17 +42,23 @@ namespace Ex04.Menus.Interfaces
 
         public void AttachListener(IMenuItemListener menuItemListener)
         {
-            m_MenuItemListeners.Add(menuItemListener);
+            r_MenuItemListeners.Add(menuItemListener);
         }
 
         public void DetachListener(IMenuItemListener menuItemListener)
         {
-            m_MenuItemListeners.Remove(menuItemListener);
-            //todo: maybe need to check if this item exists??? 
+            r_MenuItemListeners.Remove(menuItemListener);
         }
+
         public bool HasSubItems()
         {
-            return m_SubItems.Count > 0;
+
+            return SubItems.Count > 0;
+        }
+
+        public void AddSubItem(MenuItem i_ItemToAdd)
+        {
+            SubItems.Add(i_ItemToAdd);
         }
     }
 }

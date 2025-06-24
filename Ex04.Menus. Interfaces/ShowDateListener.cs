@@ -6,16 +6,18 @@ using System.Threading.Tasks;
 
 namespace Ex04.Menus.Interfaces
 {
-    public class ShowDateListener:IMenuItemListener
+    public class ShowDateListener : IMenuItemListener
     {
-        public IMenuActions IMenuActions { get; set; }
+        private readonly IMenuActions r_IMenuActions;
+
         public ShowDateListener(IMenuActions i_MenuActions)
         {
-            IMenuActions = i_MenuActions;
+            r_IMenuActions = i_MenuActions;
         }
+
         public void ItemSelected()
         {
-            IMenuActions.ShowCurrentDate();
+            r_IMenuActions.MenuItemShowCurrentDate_Clicked();
         }
     }
 }

@@ -6,38 +6,49 @@ using System.Threading.Tasks;
 
 namespace Ex04.Menus.Events
 {
-    public delegate void ClickEventHandler();
+    public delegate void ItemClickedEventHandler();
     public class MenuItem
     {
+        private readonly MainMenu r_MainMenu = new MainMenu();
         public string ItemText { get; set; }
-        public readonly List<MenuItem> m_SubItems = new List<MenuItem>();
-        public event ClickEventHandler ClickOccured;
+        public List<MenuItem> SubItems { get; } = new List<MenuItem>();
+        public event ItemClickedEventHandler ItemClicked;
+
         public MenuItem(string i_ItemText)
         {
             ItemText = i_ItemText;
         }
+
         public void Clicked()
         {
             if (HasSubItems())
             {
                 Console.Clear();
-                MainMenu.ShowMenu(this);
+                r_MainMenu.ShowMenu(this);
             }
             else
             {
                 OnClick();
             }
         }
+
         protected virtual void OnClick()
         {
-            if(ClickOccured != null)
+            if(ItemClicked != null)
             {
-                ClickOccured();
+                ItemClicked();
             }
         }
-        public bool HasSubItems()
+
+        internal bool HasSubItems()
         {
-            return m_SubItems.Count > 0;
+
+            return SubItems.Count > 0;
+        }
+
+        public void AddSubItem(MenuItem i_ItemToAdd)
+        {
+            SubItems.Add(i_ItemToAdd);
         }
     }
 }

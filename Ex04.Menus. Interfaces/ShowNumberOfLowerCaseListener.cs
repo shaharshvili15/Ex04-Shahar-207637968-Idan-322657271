@@ -8,14 +8,16 @@ namespace Ex04.Menus.Interfaces
 {
     public class ShowNumberOfLowerCaseListener : IMenuItemListener
     {
-        public IMenuActions IMenuActions { get; set; }
+        private readonly IMenuActions r_IMenuActions;
+
         public ShowNumberOfLowerCaseListener(IMenuActions i_MenuActions)
         {
-            IMenuActions = i_MenuActions;
+            r_IMenuActions = i_MenuActions;
         }
+
         public void ItemSelected()
         {
-            IMenuActions.ShowNumberOfLowerCaseLetters();
+            r_IMenuActions.MenuItemShowNumberOfLowerCaseLetters_Clicked();
         }
     }
 }

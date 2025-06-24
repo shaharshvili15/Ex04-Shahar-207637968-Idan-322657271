@@ -8,14 +8,16 @@ namespace Ex04.Menus.Interfaces
 {
     public class ShowTimeListener : IMenuItemListener
     {
-        public IMenuActions IMenuActions { get; set; }
+        private readonly IMenuActions r_IMenuActions;
+
         public ShowTimeListener(IMenuActions i_MenuActions)
         {
-            IMenuActions = i_MenuActions;
+            r_IMenuActions = i_MenuActions;
         }
+
         public void ItemSelected()
         {
-            IMenuActions.ShowCurrentTime();
+            r_IMenuActions.MenuItemShowCurrentTime_Clicked();
         }
     }
 }
