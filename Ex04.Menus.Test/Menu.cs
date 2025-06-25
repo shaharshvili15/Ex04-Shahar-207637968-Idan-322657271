@@ -12,38 +12,45 @@ namespace Ex04.Menus.Test
 
     internal class Menu
     {
-        private readonly Events.MainMenu r_EventsMainMenu = new Events.MainMenu();
+        private readonly Events.MainMenu r_EventsMainMenu = new Events.MainMenu("** Delegates Main Menu **");
         private readonly Interfaces.MainMenu r_InterfacesMainMenu = new Interfaces.MainMenu("** Interfaces Main Menu **");
         private readonly MenuActions r_MenuActions;
 
         public Menu()
         {
             r_MenuActions = new MenuActions();
-            //buildMenuItemsEvents();
+            buildMenuItemsEvents();
             buildMenuItemsInterface();
         }
 
         private void buildMenuItemsEvents()
         {
-            Events.MenuItem VersionOrLettersItem = new Events.MenuItem("Letters and Version");
-            Events.MenuItem ShowCurrentDateOrTime = new Events.MenuItem("Show Current Date/Time");
-            Events.MenuItem ShowVersionItem = new Events.MenuItem("Show Version");
-            Events.MenuItem CountLowerCaseItem = new Events.MenuItem("Count Lowercase Letters");
-            Events.MenuItem ShowCurrentDate = new Events.MenuItem("Show Current Date");
-            Events.MenuItem ShowCurrentTime = new Events.MenuItem("Show Current Time");
-            Events.MenuItem ShowMainMenu = new Events.MenuItem("** Delegates Main Menu **");
 
-            ShowVersionItem.ItemClicked += new ItemClickedEventHandler(r_MenuActions.MenuItemShowVersion_Clicked);
-            CountLowerCaseItem.ItemClicked += new ItemClickedEventHandler(r_MenuActions.MenuItemShowNumberOfLowerCaseLetters_Clicked);
-            ShowCurrentDate.ItemClicked += new ItemClickedEventHandler(r_MenuActions.MenuItemShowCurrentDate_Clicked);
-            ShowCurrentTime.ItemClicked += new ItemClickedEventHandler(r_MenuActions.MenuItemShowCurrentTime_Clicked);
-            VersionOrLettersItem.AddSubItem(ShowVersionItem);
-            VersionOrLettersItem.AddSubItem(CountLowerCaseItem);
-            ShowCurrentDateOrTime.AddSubItem(ShowCurrentDate);
-            ShowCurrentDateOrTime.AddSubItem(ShowCurrentTime);
-            ShowMainMenu.AddSubItem(VersionOrLettersItem);
-            ShowMainMenu.AddSubItem(ShowCurrentDateOrTime);
-            r_EventsMainMenu.ShowMenu(ShowMainMenu,true);            
+
+            Events.MenuItem wordCounterMenuItem = r_EventsMainMenu.CreateItem(MenuActions.k_CountLowercaseLetters);
+            r_EventsMainMenu.AttachListener(wordCounterMenuItem, new ItemClickedEventHandler(r_MenuActions.MenuItemShowNumberOfLowerCaseLetters_Clicked));
+
+            Events.MenuItem showVersionMenuItem = r_EventsMainMenu.CreateItem(MenuActions.k_ShowVersion);
+            r_EventsMainMenu.AttachListener(showVersionMenuItem, new ItemClickedEventHandler(r_MenuActions.MenuItemShowVersion_Clicked));
+
+            Events.MenuItem showCurrentTimeMenuItem = r_EventsMainMenu.CreateItem(MenuActions.k_ShowCurrentTime);
+            r_EventsMainMenu.AttachListener(showCurrentTimeMenuItem, new ItemClickedEventHandler(r_MenuActions.MenuItemShowCurrentTime_Clicked));
+
+            Events.MenuItem showCurrentDateMenuItem = r_EventsMainMenu.CreateItem(MenuActions.k_ShowCurrentDate);
+            r_EventsMainMenu.AttachListener(showCurrentDateMenuItem, new ItemClickedEventHandler(r_MenuActions.MenuItemShowCurrentDate_Clicked));
+
+            Events.MenuItem showCurrentDateOrTimeMenuItem = r_EventsMainMenu.CreateItem(MenuActions.k_ShowCurrentDateOrTime);
+            r_EventsMainMenu.AddSubItem(showCurrentDateMenuItem, showCurrentDateOrTimeMenuItem);
+            r_EventsMainMenu.AddSubItem(showCurrentTimeMenuItem, showCurrentDateOrTimeMenuItem);
+
+            Events.MenuItem lettersAndVersionMenuItem = r_EventsMainMenu.CreateItem(MenuActions.k_LettersAndVersion);
+            r_EventsMainMenu.AddSubItem(showVersionMenuItem, lettersAndVersionMenuItem);
+            r_EventsMainMenu.AddSubItem(wordCounterMenuItem, lettersAndVersionMenuItem);
+
+            r_EventsMainMenu.AddSubItem(lettersAndVersionMenuItem, r_EventsMainMenu.RootMenuItem);
+            r_EventsMainMenu.AddSubItem(showCurrentDateOrTimeMenuItem, r_EventsMainMenu.RootMenuItem);
+
+            r_EventsMainMenu.Show();    
         }
 
         private void buildMenuItemsInterface()

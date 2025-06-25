@@ -11,7 +11,7 @@ namespace Ex04.Menus.Interfaces
         private readonly MenuLogic r_MenuLogic = new MenuLogic();
         public MenuItem RootMenuItem { get; private set; }
 
-        public MainMenu(String text)
+        public MainMenu(string text)
         {
             RootMenuItem = new MenuItem(text);
         }

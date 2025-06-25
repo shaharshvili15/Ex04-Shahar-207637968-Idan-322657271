@@ -9,7 +9,7 @@ namespace Ex04.Menus.Events
     public delegate void ItemClickedEventHandler();
     public class MenuItem
     {
-        private readonly MainMenu r_MainMenu = new MainMenu();
+        private readonly MenuLogic r_MenuLogic = new MenuLogic();
         public string ItemText { get; set; }
         public List<MenuItem> SubItems { get; } = new List<MenuItem>();
         public event ItemClickedEventHandler ItemClicked;
@@ -24,7 +24,7 @@ namespace Ex04.Menus.Events
             if (HasSubItems())
             {
                 Console.Clear();
-                r_MainMenu.ShowMenu(this);
+                r_MenuLogic.ShowMenu(this);
             }
             else
             {
@@ -49,6 +49,11 @@ namespace Ex04.Menus.Events
         public void AddSubItem(MenuItem i_ItemToAdd)
         {
             SubItems.Add(i_ItemToAdd);
+        }
+
+        public void AttachListener(ItemClickedEventHandler i_MenuItemEventHandler)
+        {
+            ItemClicked += i_MenuItemEventHandler;
         }
     }
 }
