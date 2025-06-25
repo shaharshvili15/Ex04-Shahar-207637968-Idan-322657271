@@ -8,73 +8,39 @@ namespace Ex04.Menus.Interfaces
 {
     public class MainMenu
     {
-        public void ShowMenu(MenuItem i_MenuItem, bool i_IsMainMenu = false)
-        {
-            while (true)
-            {
-                int userChoiseInput = userChoise(i_MenuItem.SubItems, i_MenuItem.ItemText, i_IsMainMenu);
+        private readonly MenuLogic r_MenuLogic = new MenuLogic();
+        public MenuItem RootMenuItem { get; private set; }
 
-                if (userChoiseInput == 0)
-                {
-                    Console.Clear();
-                    break;
-                }
-                else
-                {
-                    i_MenuItem.SubItems[userChoiseInput - 1].Clicked();
-                }
-            }
+        public MainMenu(String text)
+        {
+            RootMenuItem = new MenuItem(text);
         }
 
-        private int userChoise(List<MenuItem> i_Items, string i_ItemText, bool i_IsMainMenu)
+        public MenuItem CreateItem(string i_Text)
         {
-            while (true)
-            {
-                Console.WriteLine(i_ItemText);
-                Console.WriteLine("---------------");
-                foreach (MenuItem currentMenuItem in i_Items)
-                {
-                    Console.WriteLine($"{i_Items.IndexOf(currentMenuItem) + 1}. {currentMenuItem.ItemText}");
-                }
-
-                if (i_IsMainMenu)
-                {
-                    Console.WriteLine("0. Exit");
-                    Console.WriteLine($"Please enter your choice (1-{i_Items.Count} or 0 to exit):");
-                }
-                else
-                {
-                    Console.WriteLine("0. Back");
-                    Console.WriteLine($"Please enter your choice (1-{i_Items.Count} or 0 to go back):");
-                }
-
-                Console.Write(">> ");
-                string userChoise = Console.ReadLine();
-                bool ableToParseUserChoise = int.TryParse(userChoise, out int userChoiseNumber);
-
-                if (!ableToParseUserChoise)
-                {
-                    Console.WriteLine("Please enter a number");
-                    continue;
-                }
-
-                if (userChoiseNumber < 0 || userChoiseNumber > i_Items.Count)
-                {
-                    if (i_IsMainMenu)
-                    {
-                        Console.WriteLine($"Please enter a number in the range (1-{i_Items.Count} or 0 to exit):");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Please enter a number in the range (1-{i_Items.Count} or 0 to go back):");
-                    }
-                }
-                else
-                {
-
-                    return userChoiseNumber;
-                }
-            }
+            MenuItem newMenuItem = new MenuItem(i_Text);
+            return newMenuItem;
         }
+
+        public void AddSubItem(MenuItem i_SubMenuItem, MenuItem i_ParentMenuItem)
+        {
+            i_ParentMenuItem.AddSubItem(i_SubMenuItem);
+        }
+
+        public void Show()
+        {
+            r_MenuLogic.ShowMenu(RootMenuItem, true);
+        }
+
+        public void AttachListener(MenuItem i_MenuItem, IMenuItemListener i_Listener)
+        {
+            i_MenuItem.AttachListener(i_Listener);
+        }
+
+        public void DetachListener(MenuItem i_MenuItem, IMenuItemListener i_Listener)
+        {
+            i_MenuItem.DetachListener(i_Listener);
+        }
+
     }
 }

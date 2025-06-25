@@ -9,7 +9,7 @@ namespace Ex04.Menus.Interfaces
 {
     public class MenuItem
     {
-        private readonly MainMenu r_MainMenu = new MainMenu();
+        private readonly MenuLogic r_MenuLogic = new MenuLogic();
         private readonly List<IMenuItemListener> r_MenuItemListeners;
         public List<MenuItem> SubItems { get; }
         public string ItemText { get; set; }
@@ -28,7 +28,7 @@ namespace Ex04.Menus.Interfaces
                 if (HasSubItems())
                 {
                     Console.Clear();
-                    r_MainMenu.ShowMenu(this);
+                    r_MenuLogic.ShowMenu(this);
                 }
             }
             else

@@ -13,13 +13,13 @@ namespace Ex04.Menus.Test
     internal class Menu
     {
         private readonly Events.MainMenu r_EventsMainMenu = new Events.MainMenu();
-        private readonly Interfaces.MainMenu r_InterfacesMainMenu = new Interfaces.MainMenu();
+        private readonly Interfaces.MainMenu r_InterfacesMainMenu = new Interfaces.MainMenu("** Interfaces Main Menu **");
         private readonly MenuActions r_MenuActions;
 
         public Menu()
         {
             r_MenuActions = new MenuActions();
-            buildMenuItemsEvents();
+            //buildMenuItemsEvents();
             buildMenuItemsInterface();
         }
 
@@ -47,30 +47,31 @@ namespace Ex04.Menus.Test
         }
 
         private void buildMenuItemsInterface()
-        {
-            Interfaces.MenuItem VersionOrLettersItem = new Interfaces.MenuItem("Letters and Version");
-            Interfaces.MenuItem ShowCurrentDateOrTime = new Interfaces.MenuItem("Show Current Date/Time");
-            Interfaces.MenuItem ShowVersionItem = new Interfaces.MenuItem("Show Version");
-            Interfaces.MenuItem CountLowerCaseItem = new Interfaces.MenuItem("Count Lowercase Letters");
-            Interfaces.MenuItem ShowCurrentDate = new Interfaces.MenuItem("Show Current Date");
-            Interfaces.MenuItem ShowCurrentTime = new Interfaces.MenuItem("Show Current Time");
-            Interfaces.MenuItem ShowMainMenu = new Interfaces.MenuItem("** Interface Main Menu **");
-            ShowVersionListener VersionListener = new ShowVersionListener(r_MenuActions);
-            ShowNumberOfLowerCaseListener CountLowerCaseListener = new ShowNumberOfLowerCaseListener(r_MenuActions);
-            ShowDateListener ShowCurrentDateListener = new ShowDateListener(r_MenuActions);
-            ShowTimeListener ShowCurrentTimeListener = new ShowTimeListener(r_MenuActions);
+        { 
+            Interfaces.MenuItem wordCounterMenuItem = r_InterfacesMainMenu.CreateItem(MenuActions.k_CountLowercaseLetters);
+            r_InterfacesMainMenu.AttachListener(wordCounterMenuItem, new ShowNumberOfLowerCaseListener(r_MenuActions));
 
-            ShowVersionItem.AttachListener(VersionListener);
-            CountLowerCaseItem.AttachListener(CountLowerCaseListener);
-            ShowCurrentDate.AttachListener(ShowCurrentDateListener);
-            ShowCurrentTime.AttachListener(ShowCurrentTimeListener);
-            VersionOrLettersItem.AddSubItem(ShowVersionItem);
-            VersionOrLettersItem.AddSubItem(CountLowerCaseItem);
-            ShowCurrentDateOrTime.AddSubItem(ShowCurrentDate);
-            ShowCurrentDateOrTime.AddSubItem(ShowCurrentTime);
-            ShowMainMenu.AddSubItem(VersionOrLettersItem);
-            ShowMainMenu.AddSubItem(ShowCurrentDateOrTime);
-            r_InterfacesMainMenu.ShowMenu(ShowMainMenu, true);
+            Interfaces.MenuItem showVersionMenuItem = r_InterfacesMainMenu.CreateItem(MenuActions.k_ShowVersion);
+            r_InterfacesMainMenu.AttachListener(showVersionMenuItem, new ShowVersionListener(r_MenuActions));
+
+            Interfaces.MenuItem showCurrentTimeMenuItem = r_InterfacesMainMenu.CreateItem(MenuActions.k_ShowCurrentTime);
+            r_InterfacesMainMenu.AttachListener(showCurrentTimeMenuItem, new ShowTimeListener(r_MenuActions));
+
+            Interfaces.MenuItem showCurrentDateMenuItem = r_InterfacesMainMenu.CreateItem(MenuActions.k_ShowCurrentDate);
+            r_InterfacesMainMenu.AttachListener(showCurrentDateMenuItem, new ShowDateListener(r_MenuActions));
+
+            Interfaces.MenuItem showCurrentDateOrTimeMenuItem = r_InterfacesMainMenu.CreateItem(MenuActions.k_ShowCurrentDateOrTime);
+            r_InterfacesMainMenu.AddSubItem(showCurrentDateMenuItem, showCurrentDateOrTimeMenuItem);
+            r_InterfacesMainMenu.AddSubItem(showCurrentTimeMenuItem, showCurrentDateOrTimeMenuItem);
+
+            Interfaces.MenuItem lettersAndVersionMenuItem = r_InterfacesMainMenu.CreateItem(MenuActions.k_LettersAndVersion);
+            r_InterfacesMainMenu.AddSubItem(showVersionMenuItem, lettersAndVersionMenuItem);
+            r_InterfacesMainMenu.AddSubItem(wordCounterMenuItem, lettersAndVersionMenuItem);
+
+            r_InterfacesMainMenu.AddSubItem(lettersAndVersionMenuItem, r_InterfacesMainMenu.RootMenuItem);
+            r_InterfacesMainMenu.AddSubItem(showCurrentDateOrTimeMenuItem, r_InterfacesMainMenu.RootMenuItem);
+
+            r_InterfacesMainMenu.Show();
         }
     }
 }

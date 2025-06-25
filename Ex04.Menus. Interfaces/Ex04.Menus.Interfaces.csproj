@@ -43,6 +43,7 @@
     <Compile Include="IMenuItemListener.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="MenuItem.cs" />
+    <Compile Include="MenuLogic.cs" />
     <Compile Include="ShowDateListener.cs" />
     <Compile Include="ShowNumberOfLowerCaseListener.cs" />
     <Compile Include="ShowTimeListener.cs" />

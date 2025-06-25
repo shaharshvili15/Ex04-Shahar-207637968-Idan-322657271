@@ -9,6 +9,13 @@ namespace Ex04.Menus.Test
 {
     internal class MenuActions : IMenuActions
     {
+        public const string k_CountLowercaseLetters = "Count Lowercase Letters";
+        public const string k_ShowVersion = "Show Version";
+        public const string k_ShowCurrentDate = "Show Current Date";
+        public const string k_ShowCurrentTime = "Show Current Time";
+        public const string k_ShowCurrentDateOrTime = "Show Current Date/Time";
+        public const string k_LettersAndVersion = "Letters and Version";
+
         public void MenuItemShowVersion_Clicked()
         {
             Console.WriteLine("App Version: 25.2.4.4480");
